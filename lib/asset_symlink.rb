@@ -10,18 +10,19 @@ module AssetSymlink
         FileUtils.mkdir_p(File.dirname(public_location))
       end
       digested_location = digested_location.relative_path_from(public_location.dirname)
-      FileUtils.ln_sf(digested_location, Rails.root.join('public','assets',public_name))
+      #FileUtils.ln_sf(digested_location, Rails.root.join('public','assets',public_name))
+      FileUtils.rm(Rails.root.join('public','assets',public_name), :force => true)
     end
   end
 
 
   def self.normalize_configuration config
     case config
-    when Hash 
+    when Hash
       config
     when String
       {config => config}
-    when Array 
+    when Array
       config.inject({}) do |result, element|
         result.merge(normalize_configuration(element))
       end
